@@ -1,0 +1,19 @@
+services:
+  openwakeword:
+    container_name: openwakeword
+    image: rhasspy/wyoming-openwakeword
+    user: 1000:1000
+    volumes:
+      - $INSTALL_DIR/wakeword/data:/data
+      - $INSTALL_DIR/wakeword/custom:/custom
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    environment:
+      - TZ=$TZ
+    command:
+      --preload-model 'ok_nabu'
+      --custom-model-dir /custom
+    restart: unless-stopped
+    ports:
+      - 10400:10400
+      - 10400:10400/udp
